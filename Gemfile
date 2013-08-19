@@ -36,7 +36,6 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-gem 'open-uri'
 gem 'nokogiri'
 
 # Use ActiveModel has_secure_password

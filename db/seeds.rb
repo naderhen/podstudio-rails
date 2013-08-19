@@ -1,3 +1,4 @@
+require 'open-uri'
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
@@ -15,11 +16,13 @@ podcast = Podcast.create name: "How Did This Get Made", user_id: user.id, descri
 puts "Created Podcast: #{podcast.name} under user: #{podcast.user.email}"
 
 doc = Nokogiri::XML(open('http://feeds.feedburner.com/howdidthisgetmade.xml')).remove_namespaces!
-episodes = doc.xpath('//item')
+items = doc.xpath('//item')
 
-episodes.each do |episode|
-  title = episode.xpath('title').text
-  description = episode.xpath('description').text
-  pubDate = episode.xpath('pubDate').text
-  content_url = episode.xpath('content').xpath('@url').text
+items.each do |item|
+  title = item.xpath('title').text
+  description = item.xpath('description').text
+  pubDate = item.xpath('pubDate').text
+  content_url = item.xpath('content').xpath('@url').text
+  episode = Episode.create podcast_id: podcast.id, title: title, description: description, pubdate: pubDate, content_url: content_url
+  puts "Created Episode: #{episode.title} in #{episode.podcast.name}"
 end

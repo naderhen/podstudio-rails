@@ -1,5 +1,7 @@
 Podstudio::Application.routes.draw do
-  resources :podcasts
+  resources :podcasts do
+    resources :episodes
+  end
 
   get "home/index"
   devise_for :users
