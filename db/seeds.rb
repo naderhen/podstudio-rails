@@ -7,22 +7,49 @@ require 'open-uri'
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 User.destroy_all
-Podcast.destroy_all
 
 user = User.create email: "admin@podstud.io", password: "admindemo1", password_confirmation: "admindemo1"
 puts "Created User: #{user.email}"
 
-podcast = Podcast.create name: "How Did This Get Made", user_id: user.id, description: "Have you ever seen a movie so bad that it's amazing? Paul Scheer, June Diane Raphael and Jason Mantzoukas want to hear about it! We'll watch it with our funniest friends, and report back to you with the results."
-puts "Created Podcast: #{podcast.name} under user: #{podcast.user.email}"
+urls = [
+        "http://nerdist.libsyn.com/rss",
+        "http://feeds.feedburner.com/howdidthisgetmade"
+       ]
 
-doc = Nokogiri::XML(open('http://feeds.feedburner.com/howdidthisgetmade.xml')).remove_namespaces!
-items = doc.xpath('//item')
+urls.each do |url|
+  doc = Nokogiri::XML(open(url)).remove_namespaces!
+  name = doc.xpath('/rss/channel/title').text
+  description = doc.xpath('/rss/channel/description').text
+  thumbnail = doc.xpath('/rss/channel/image').xpath('url').text
+  last_build_date = doc.xpath('/rss/channel/lastBuildDate').text
 
-items.each do |item|
-  title = item.xpath('title').text
-  description = item.xpath('description').text
-  pubDate = item.xpath('pubDate').text
-  content_url = item.xpath('content').xpath('@url').text
-  episode = Episode.create podcast_id: podcast.id, title: title, description: description, pubdate: pubDate, content_url: content_url
-  puts "Created Episode: #{episode.title} in #{episode.podcast.name}"
+  puts "Creating Podcast: #{name}"
+  podcast = user.podcasts.build name: name, description: description, thumbnail: thumbnail, url: url, last_build_date: last_build_date
+  podcast.save!
+
+  items = doc.xpath('//item')
+
+  items.each do |item|
+    guid = item.xpath('guid').text
+    title = item.xpath('title').text
+    description = item.xpath('description').text
+    link = item.xpath('link').text
+    thumbnail = item.xpath('thumbnail').xpath('@url').text
+    pubDate = item.xpath('pubDate').text
+    content_url = item.xpath('content').xpath('@url').text
+    file_size = item.xpath('content').xpath('@fileSize').text
+    content_type = item.xpath('content').xpath('@type').text
+
+    puts "Creating #{podcast.name} Episode: #{title} (#{guid})"
+    episode = podcast.episodes.build guid: guid,
+                                     title: title,
+                                     description: description,
+                                     link: link,
+                                     thumbnail: thumbnail,
+                                     pubdate: pubDate,
+                                     content_url: content_url,
+                                     file_size: file_size,
+                                     content_type: content_type
+    episode.save
+  end
 end
