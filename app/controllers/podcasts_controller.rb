@@ -1,5 +1,5 @@
 class PodcastsController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, except: :show
   before_action :set_podcast, only: [:show, :edit, :update, :destroy]
 
   # GET /podcasts
