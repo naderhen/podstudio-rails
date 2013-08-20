@@ -11,10 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130820140246) do
+ActiveRecord::Schema.define(version: 20130820231347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "appearances", force: true do |t|
+    t.integer  "guest_id"
+    t.integer  "episode_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "episodes", force: true do |t|
     t.string   "title"
@@ -35,6 +42,13 @@ ActiveRecord::Schema.define(version: 20130820140246) do
     t.string   "duration"
     t.boolean  "explicit"
     t.text     "subtitle"
+  end
+
+  create_table "guests", force: true do |t|
+    t.string   "name"
+    t.string   "avatar"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "podcasts", force: true do |t|

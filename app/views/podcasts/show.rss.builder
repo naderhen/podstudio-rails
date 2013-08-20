@@ -86,6 +86,13 @@ xml.rss "xmlns:itunes" => "http://www.itunes.com/dtds/podcast-1.0.dtd",  "xmlns:
 	        xml.itunes :summary, episode.description
 	        xml.itunes :explicit, episode.explicit ? "yes" : "no"
 	        xml.itunes :duration, episode.duration
+
+	        episode.guests.each do |guest|
+	       		xml.podstudio :guest do
+			      xml.podstudio :name, guest.name
+			      xml.podstudio :id, guest.id
+			    end
+	        end
 		  end
 		end
 	end

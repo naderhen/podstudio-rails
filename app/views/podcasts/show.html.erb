@@ -23,6 +23,6 @@
 <% @podcast.episodes.group_by(&:pubdate).each do |pubdate, episodes| %>
   <h3><%= pubdate.strftime("%m/%d/%y at %I:%M%p %Z") %></h3>  	
   <% episodes.each do |episode| %>
-  	<p><%= episode.title %></p>
+  	<p><%= episode.title %> (Guests: <%= episode.guests.collect(&:name).join(", ") %>)</p>
   <% end %>
 <% end %>
