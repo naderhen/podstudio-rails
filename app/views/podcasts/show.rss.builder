@@ -17,10 +17,10 @@ xml.rss "xmlns:itunes" => "http://www.itunes.com/dtds/podcast-1.0.dtd",  "xmlns:
 		xml.link @podcast.link
 
 #         <lastBuildDate>Mon, 25 Jul 2005 16:37:32 -0400</lastBuildDate>
-		xml.lastBuildDate @podcast.last_build_date
+		xml.lastBuildDate @podcast.last_build_date.rfc2822
 
 #         <pubDate>Mon, 25 Jul 2005 09:00:00 -0400</pubDate>
-		xml.pubDate @podcast.pubdate
+		xml.pubDate @podcast.pubdate.rfc2822
 
 #         <generator>FeedForAll Mac v1.0 (1.0.1.0) unlicensed version</generator>
 		xml.generator @podcast.generator
@@ -28,8 +28,8 @@ xml.rss "xmlns:itunes" => "http://www.itunes.com/dtds/podcast-1.0.dtd",  "xmlns:
 #         <itunes:category text="Technology">
 #             <itunes:category text="Information Technology"/>
 #         </itunes:category>
-		xml.itunes :category, :text => "Category Text" do
-			xml.itunes :category, :text => 'Software How-To'
+		xml.itunes :category, :text => "Technology" do
+			xml.itunes :category, :text => 'Information Technology'
 		end
 
 #         <itunes:subtitle>Podcasting made easy with FeedForAll</itunes:subtitle>
@@ -80,19 +80,12 @@ xml.rss "xmlns:itunes" => "http://www.itunes.com/dtds/podcast-1.0.dtd",  "xmlns:
 		  	xml.description episode.description
 		  	xml.link episode.link
 		  	xml.enclosure :url => episode.enclosure_url, :length => episode.enclosure_length, :type => episode.enclosure_type
-		  	xml.pubDate episode.pubdate
+		  	xml.pubDate episode.pubdate.rfc2822
 		  	xml.itunes :author, "AUTHOR"
 	        xml.itunes :subtitle, episode.subtitle
 	        xml.itunes :summary, episode.description
 	        xml.itunes :explicit, episode.explicit ? "yes" : "no"
 	        xml.itunes :duration, episode.duration
-
-	        episode.guests.each do |guest|
-	       		xml.podstudio :guest do
-			      xml.podstudio :name, guest.name
-			      xml.podstudio :id, guest.id
-			    end
-	        end
 		  end
 		end
 	end
