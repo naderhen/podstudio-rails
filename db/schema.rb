@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130820004654) do
+ActiveRecord::Schema.define(version: 20130820140246) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,12 @@ ActiveRecord::Schema.define(version: 20130820004654) do
     t.string   "thumbnail"
     t.integer  "file_size"
     t.string   "content_type"
+    t.string   "enclosure_url"
+    t.integer  "enclosure_length"
+    t.string   "enclosure_type"
+    t.string   "duration"
+    t.boolean  "explicit"
+    t.text     "subtitle"
   end
 
   create_table "podcasts", force: true do |t|
@@ -40,6 +46,9 @@ ActiveRecord::Schema.define(version: 20130820004654) do
     t.string   "thumbnail"
     t.string   "url"
     t.datetime "last_build_date"
+    t.string   "link"
+    t.datetime "pubdate"
+    t.string   "generator"
   end
 
   create_table "users", force: true do |t|

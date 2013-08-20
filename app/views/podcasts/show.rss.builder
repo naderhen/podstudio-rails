@@ -3,7 +3,7 @@ xml=Builder::XmlMarkup.new(:indent => 3)
 xml.instruct!
 
 # <rss xmlns:itunes="http://www.itunes.com/DTDs/Podcast-1.0.dtd" version="2.0">
-xml.rss("version" => "2.0" ,  "xmlns:g" => "http://base.google.com/ns/1.0" , "xmlns:atom" => "http://www.w3.org/2005/Atom") do
+xml.rss "xmlns:itunes" => "http://www.itunes.com/dtds/podcast-1.0.dtd",  "xmlns:media" => "http://search.yahoo.com/mrss/",  :version => "2.0" do
 
 #     <channel>
 	xml.channel do
@@ -14,30 +14,41 @@ xml.rss("version" => "2.0" ,  "xmlns:g" => "http://base.google.com/ns/1.0" , "xm
 		xml.description @podcast.description
 
 #         <link>http://www.rss-specifications.com/rss-articles.htm</link>
+		xml.link @podcast.link
 
 #         <lastBuildDate>Mon, 25 Jul 2005 16:37:32 -0400</lastBuildDate>
 		xml.lastBuildDate @podcast.last_build_date
 
 #         <pubDate>Mon, 25 Jul 2005 09:00:00 -0400</pubDate>
+		xml.pubDate @podcast.pubdate
+
 #         <generator>FeedForAll Mac v1.0 (1.0.1.0) unlicensed version</generator>
+		xml.generator @podcast.generator
+
 #         <itunes:category text="Technology">
 #             <itunes:category text="Information Technology"/>
 #         </itunes:category>
+		xml.itunes :category, :text => "Category Text" do
+			xml.itunes :category, :text => 'Software How-To'
+		end
+
 #         <itunes:subtitle>Podcasting made easy with FeedForAll</itunes:subtitle>
+		xml.itunes :subtitle, "SUBTITLE"
 
 #         <itunes:summary>Podcasting tutorial developed by the FeedForAll Mac Team to walk you through the steps necessary to publish a podcast on iTunes Music Store using this very program. Simple and precise instructions will guide you through creating an RSS feed that can contain audio, artwork, or simple xml.</itunes:summary>
-		xml.tag! "itunes:summary", "test"
+		xml.itunes :summary, "TEST"
 
 #         <itunes:author>FeedForAll Mac OS Team</itunes:author>
+		xml.itunes :author, "AUTHOR"
 
 #         <itunes:owner>
 #             <itunes:name>FeedForAll Mac OS Team</itunes:name>
 #             <itunes:email>macsupport@feedforall.com</itunes:email>
 #         </itunes:owner>
-		xml.tag! "itunes:owner" do
-			xml.url "test"
-			xml.email "email"
-		end
+		xml.itunes :owner do
+	      xml.itunes :name, "AUTHOR"
+	      xml.itunes :email, 'TEST@TEST.COM'
+	    end
 
 #         <itunes:image>
 #             <url>http://www.feedforall.com/logo.jpg</url>
@@ -64,7 +75,17 @@ xml.rss("version" => "2.0" ,  "xmlns:g" => "http://base.google.com/ns/1.0" , "xm
 #         </item>
 		@podcast.episodes.each do |episode|
 		  xml.item do
+		  	xml.guid episode.guid
 		  	xml.title episode.title
+		  	xml.description episode.description
+		  	xml.link episode.link
+		  	xml.enclosure :url => episode.enclosure_url, :length => episode.enclosure_length, :type => episode.enclosure_type
+		  	xml.pubDate episode.pubdate
+		  	xml.itunes :author, "AUTHOR"
+	        xml.itunes :subtitle, episode.subtitle
+	        xml.itunes :summary, episode.description
+	        xml.itunes :explicit, episode.explicit ? "yes" : "no"
+	        xml.itunes :duration, episode.duration
 		  end
 		end
 	end
