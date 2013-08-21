@@ -3,7 +3,7 @@ xml=Builder::XmlMarkup.new(:indent => 3)
 xml.instruct!
 
 # <rss xmlns:itunes="http://www.itunes.com/DTDs/Podcast-1.0.dtd" version="2.0">
-xml.rss "xmlns:itunes" => "http://www.itunes.com/dtds/podcast-1.0.dtd",  "xmlns:media" => "http://search.yahoo.com/mrss/",  :version => "2.0" do
+xml.rss "xmlns:itunes" => "http://www.itunes.com/dtds/podcast-1.0.dtd",  "xmlns:media" => "http://search.yahoo.com/mrss/", "xmlns:podstudio" => "http://warm-stream-2818.herokuapp.com/", :version => "2.0" do
 
 #     <channel>
 	xml.channel do
