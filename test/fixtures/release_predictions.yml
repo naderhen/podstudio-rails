@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  podcast_id: 1
+  day: MyString
+  count: 1
+  percent: 1.5
+
+two:
+  podcast_id: 1
+  day: MyString
+  count: 1
+  percent: 1.5

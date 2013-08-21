@@ -7,5 +7,6 @@ class AddPodcastWorker
 
     podcast.update_feed
     AddGuestsToEpisodesWorker.perform_async(podcast.id)
+    podcast.delay.get_release_days_of_week
   end
 end

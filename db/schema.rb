@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130821022032) do
+ActiveRecord::Schema.define(version: 20130821152823) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20130821022032) do
     t.string   "duration"
     t.boolean  "explicit"
     t.text     "subtitle"
+    t.string   "audio_file"
   end
 
   create_table "guests", force: true do |t|
@@ -63,6 +64,15 @@ ActiveRecord::Schema.define(version: 20130821022032) do
     t.string   "link"
     t.datetime "pubdate"
     t.string   "generator"
+  end
+
+  create_table "release_predictions", force: true do |t|
+    t.integer  "podcast_id"
+    t.string   "day"
+    t.integer  "count"
+    t.float    "percent"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|

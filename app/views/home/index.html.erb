@@ -3,3 +3,12 @@
   <%= text_field_tag(:url) %>
   <%= submit_tag("Add") %>
 <% end %>
+
+<% @release_predictions.each do |day, predictions| %>
+	<h1><%= day %></h1>
+	<ul>
+		<% predictions.each do |prediction| %>
+			<li><%= prediction.podcast.name %>: <%= "#{prediction.percent * 100}%" %></li>
+		<% end %>
+	</ul>
+<% end %>
