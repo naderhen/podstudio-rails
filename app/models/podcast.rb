@@ -27,7 +27,7 @@ class Podcast < ActiveRecord::Base
   	new_entries = self.find_new_entries
 
   	if new_entries.count > 0
-  		Podstudio::EpisodeHelper.batch_create_from_xml(new_entries, self.id)
+  		Podstudio::XMLHelper.batch_create_episodes_from_xml(new_entries, self.id)
   	end
   	true
   end

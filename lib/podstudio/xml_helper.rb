@@ -1,6 +1,20 @@
 module Podstudio
-	module EpisodeHelper
-		def self.create_from_xml(item, podcast_id)
+	module XMLHelper
+		def self.create_podcast_from_xml(url, user_id)
+			doc = Nokogiri::XML(open(url)).remove_namespaces!
+		    name = doc.xpath('/rss/channel/title').text
+		    description = doc.xpath('/rss/channel/description').text
+		    thumbnail = doc.xpath('/rss/channel/image').xpath('url').text
+		    last_build_date = doc.xpath('/rss/channel/lastBuildDate').text
+		    link = doc.xpath('/rss/channel/link').text
+		    pubdate = doc.xpath('/rss/channel/pubDate').text
+		    generator = doc.xpath('/rss/channel/generator').text
+
+		    puts "Creating Podcast: #{name}"
+		    Podcast.create user_id: user_id, name: name, description: description, thumbnail: thumbnail, url: url, last_build_date: last_build_date, link: link, pubdate: pubdate, generator: generator
+		end
+
+		def self.create_episode_from_xml(item, podcast_id)
 		  guid = item.xpath('guid').text
 	      title = item.xpath('title').text
 	      description = item.xpath('description').text
@@ -36,12 +50,11 @@ module Podstudio
 	                                       enclosure_type: enclosure_type,
 	                                       explicit: explicit,
 	                                       subtitle: subtitle
-	      episode
 		end
 
-		def self.batch_create_from_xml(items, podcast_id)
+		def self.batch_create_episodes_from_xml(items, podcast_id)
 			items.each do |item|
-				self.create_from_xml(item, podcast_id)
+				self.create_episode_from_xml(item, podcast_id)
 			end
 		end
 	end
