@@ -1,5 +1,6 @@
 Podstudio::Application.routes.draw do
   resources :podcasts do
+    get 'update_feed', on: :member
     resources :episodes
   end
 

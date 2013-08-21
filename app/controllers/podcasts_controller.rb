@@ -1,6 +1,6 @@
 class PodcastsController < ApplicationController
   before_filter :authenticate_user!, except: :show
-  before_action :set_podcast, only: [:show, :edit, :update, :destroy]
+  before_action :set_podcast, only: [:show, :edit, :update, :update_feed, :destroy]
 
   # GET /podcasts
   # GET /podcasts.json
@@ -50,6 +50,12 @@ class PodcastsController < ApplicationController
         format.json { render json: @podcast.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def update_feed
+    UpdatePodcastWorker.perform_async(@podcast.id)
+    redirect_to podcast_path(@podcast)
+    return
   end
 
   # DELETE /podcasts/1

@@ -15,12 +15,13 @@
   <%= @podcast.description %>
 </p>
 
+<%= link_to "UPDATE FEED", update_feed_podcast_path(@podcast) %> |
 <%= link_to 'Edit', edit_podcast_path(@podcast) %> |
 <%= link_to 'Back', podcasts_path %>
 
 <%= link_to 'New Episode', new_podcast_episode_path(@podcast) %>
 
-<% @podcast.episodes.group_by(&:pubdate).each do |pubdate, episodes| %>
+<% @podcast.episodes.order('pubdate DESC').group_by(&:pubdate).each do |pubdate, episodes| %>
   <h3><%= pubdate.strftime("%m/%d/%y at %I:%M%p %Z") %></h3>  	
   <% episodes.each do |episode| %>
   	<p><%= episode.title %> (Guests: <%= episode.guests.collect(&:name).join(", ") %>)</p>
