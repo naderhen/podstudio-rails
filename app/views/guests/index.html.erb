@@ -1,0 +1,16 @@
+<ul>
+ <% @guests.each do |guest| %>
+ 	<li>
+ 		<h3><%= guest.name%></h3>
+ 		<% if guest.episodes.present? %>
+ 			<ul>
+ 			<% guest.episodes.each do |episode| %>
+ 				<li>
+					<h5><%= "#{episode.podcast.name} - #{episode.title}" %></h5>
+ 				</li>
+ 			<% end %>
+ 			</ul>
+ 		<% end %>
+ 	</li>
+ <% end %>
+</ul>

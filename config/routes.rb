@@ -3,9 +3,18 @@ Podstudio::Application.routes.draw do
     resources :episodes
   end
 
+  resources :guests
+
   get "home/index"
+  get "home/fetch_feed"
+  
   devise_for :users
   root :to => "home#index"
+
+  require 'sidekiq/web'
+  authenticate :user do
+    mount Sidekiq::Web => '/sidekiq'
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
