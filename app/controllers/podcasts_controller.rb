@@ -53,7 +53,7 @@ class PodcastsController < ApplicationController
   end
 
   def update_feed
-    UpdatePodcastWorker.perform_async(@podcast.id)
+    @podcast.delay.update_feed
     redirect_to podcast_path(@podcast)
     return
   end

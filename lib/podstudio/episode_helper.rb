@@ -38,5 +38,11 @@ module Podstudio
 	                                       subtitle: subtitle
 	      episode
 		end
+
+		def self.batch_create_from_xml(items, podcast_id)
+			items.each do |item|
+				self.create_from_xml(item, podcast_id)
+			end
+		end
 	end
 end
