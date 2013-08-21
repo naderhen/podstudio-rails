@@ -3,6 +3,7 @@
 <table>
   <thead>
     <tr>
+      <th></th>
       <th>Name</th>
       <th>User</th>
       <th>Description</th>
@@ -15,6 +16,7 @@
   <tbody>
     <% @podcasts.each do |podcast| %>
       <tr>
+        <td><img src="<%= podcast.avatar.url(:thumb) %>"></td>
         <td><%= podcast.name %></td>
         <td><%= podcast.user_id %></td>
         <td><%= podcast.description %></td>

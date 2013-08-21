@@ -22,8 +22,14 @@
 <%= link_to 'New Episode', new_podcast_episode_path(@podcast) %>
 
 <% @podcast.episodes.order('pubdate DESC').group_by(&:pubdate).each do |pubdate, episodes| %>
-  <h3><%= pubdate.strftime("%m/%d/%y at %I:%M%p %Z") %></h3>  	
+  <h3><%= pubdate.strftime("%m/%d/%y at %I:%M%p %Z") if pubdate %></h3>  	
   <% episodes.each do |episode| %>
   	<p><%= episode.title %> (Guests: <%= episode.guests.collect(&:name).join(", ") %>)</p>
+    <% if episode.upload.present? %>
+      <audio controls>
+        <source src="<%= episode.upload.url %>" type="audio/mpeg">
+      Your browser does not support the audio element.
+      </audio>
+    <% end %>
   <% end %>
 <% end %>

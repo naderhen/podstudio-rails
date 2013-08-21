@@ -3,6 +3,8 @@ class Podcast < ActiveRecord::Base
   has_many :episodes, dependent: :destroy
   has_many :release_predictions
 
+  has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
+
   def xml_body
   	require 'open-uri'
   	Nokogiri::XML(open(self.url)).remove_namespaces!

@@ -10,8 +10,10 @@ module Podstudio
 		    pubdate = doc.xpath('/rss/channel/pubDate').text
 		    generator = doc.xpath('/rss/channel/generator').text
 
+		    avatar = open(thumbnail)
+
 		    puts "Creating Podcast: #{name}"
-		    Podcast.create user_id: user_id, name: name, description: description, thumbnail: thumbnail, url: url, last_build_date: last_build_date, link: link, pubdate: pubdate, generator: generator
+		    Podcast.create user_id: user_id, name: name, description: description, avatar: avatar, thumbnail: thumbnail, url: url, last_build_date: last_build_date, link: link, pubdate: pubdate, generator: generator
 		end
 
 		def self.create_episode_from_xml(item, podcast_id)
