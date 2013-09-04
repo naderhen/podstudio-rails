@@ -13,4 +13,12 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require_tree .
+//= require bootstrap
+//= require underscore
+//= require typeahead
+//= require select2
+//= require angular/angular
+//= require angular/angular-ui
+//= require angular/angular-strap
+//= require angular/select2
+//= require angular/app

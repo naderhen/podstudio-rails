@@ -16,7 +16,7 @@ class Podcast < ActiveRecord::Base
   	return items if self.episodes.count == 0
   	latest_episode = self.episodes.order('pubdate DESC').first
 
-	found_new_entries = []
+	  found_new_entries = []
 
   	items.each do |item|
     	break if item.xpath('guid').text == latest_episode.guid
