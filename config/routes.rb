@@ -7,7 +7,7 @@ Podstudio::Application.routes.draw do
   resources :guests
 
   get "home/index"
-  get "home/fetch_feed"
+  post "home/fetch_feed"
   
   devise_for :users
   root :to => "home#index"

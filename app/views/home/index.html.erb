@@ -1,3 +1,4 @@
 <div ng-controller="FeedSearchCtrl">
-  <input type="text" class="ngTypeahead" datasets="typeaheadData" ng-model="new_feed" style="width: 350px;"></div>
+  <input type="text" class="ngTypeahead" datasets="typeaheadData" ng-model="new_feed" style="width: 350px;">
+  <button ng-disabled="!new_feed" ng-click="submitFeed()">Submit</button>
 </div>

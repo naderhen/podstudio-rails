@@ -1,4 +1,13 @@
-var app = angular.module('app', ['ui', '$strap.directives', 'siyfion.ngTypeahead']);
+var app = angular.module('app', ['siyfion.ngTypeahead', 'restangular'])
+    .config(function(RestangularProvider) {
+      RestangularProvider.setBaseUrl("");
+      RestangularProvider.setRequestSuffix('.json');
+    });
+
+app.config(['$httpProvider', function($httpProvider) {
+  $httpProvider.defaults.headers['common']['Accept'] = 'application/json';
+  $httpProvider.defaults.headers['common']['X-CSRF-Token'] = $('meta[name="csrf-token"]').attr('content');
+}]);
 
 angular.module('siyfion.ngTypeahead', [])
   .directive('ngTypeahead', function () {
@@ -30,10 +39,15 @@ angular.module('siyfion.ngTypeahead', [])
   });
 
 
-app.controller('FeedSearchCtrl', function($scope) {
+app.controller('FeedSearchCtrl', function($scope, Restangular) {
   $scope.$watch('new_feed', function() {
     console.log($scope.new_feed);
   });
+
+  $scope.submitFeed = function() {
+    var home = Restangular.all('home');
+    home.all('fetch_feed').post({url: $scope.new_feed.value});
+  }
 
   $scope.typeaheadData = {
     name: 'Feeds',

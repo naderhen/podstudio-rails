@@ -18,6 +18,7 @@
 //= require typeahead
 //= require select2
 //= require angular/angular
+//= require angular/restangular
 //= require angular/angular-ui
 //= require angular/angular-strap
 //= require angular/select2
